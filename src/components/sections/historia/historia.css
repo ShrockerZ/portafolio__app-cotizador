@@ -1,0 +1,34 @@
+.historia{
+    background-color: var(--lightBlue);
+    width: 80%;
+    margin: 0px auto;
+}
+.historia-container{
+    display: grid ;
+    grid-template-columns: 1fr 2fr;
+}
+.historia-title{
+    text-align: center;
+}
+.historia-title p{
+    font-size: 2rem;
+}
+.historia-data{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+.historia-element{
+    width: 280px;  
+    height: 30px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--lightGray);
+    margin: 10px 0px 10px 0px;
+
+}
+.historia-element p{ 
+    height: auto;
+    color: var(--brickRed); 
+}
+

@@ -1,0 +1,40 @@
+.quotation{
+    background-color: var(--lightGray);
+    color: var(--brickRed);
+    width: 80%;
+    margin: 10px auto 0px auto;
+    padding-bottom: 10px;
+}
+.quotation-container{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+.quotation-element{
+    position: relative;
+    padding: 0rem 2rem;
+}
+.quotation-element p{
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.quotation-select{
+    width: 100%;    
+    display: block;
+}
+.quotation-text{
+    text-align: center;
+    width: 100%;
+    display:block;
+}
+.quotation-edit{
+    position: absolute;
+    top: 20%;
+    right: 0px;
+    z-index: 11;
+    background-color: transparent;
+    color:var(--brickRed);
+    font-size: 2rem;
+    border: none;
+    cursor: pointer;
+}
