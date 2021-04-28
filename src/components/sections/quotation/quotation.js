@@ -1,14 +1,16 @@
-import React, { useContext,useEffect } from 'react'
+import React, { useContext,useEffect,useState } from 'react'
 import CurrencyContext from '../../../context/currency/currency-context';
-import LocalStorageContext from '../../../context/localstorage/localstorage-context';
 import QuotationContext from '../../../context/quotations/quotation-context';
 import "./quotation.css"
 
 export const Quotation = () => {
-    const {quotations,coin,quantity}= useContext(QuotationContext);
-    const {storeQuotation,selectedQuotation}= useContext(LocalStorageContext);
+    const {quotations,coin,quantity,storeQuotation,selectedQuotation,otherQuotation
+            ,makeQuotation,change}= useContext(QuotationContext);
     const {currencies}= useContext(CurrencyContext);
-    
+    const [select,setSelect]=useState({
+        number:0,
+        visible:false
+    })
     // obhtener el valor de texto 
     const getName= text=>{
         let result;
@@ -19,27 +21,69 @@ export const Quotation = () => {
         });
         return result;
     };
+
     useEffect(() => {
-    }, [selectedQuotation])
+        if(change){
+            makeQuotation({coin,quantity},quotations);
+        }
+    }, [quotations])
 
+    const showSelect=(idQuotation)=>{
+        setSelect({number:idQuotation,visible:true});
+    }
+    const closeSelect=(idQuotation)=>{
+        setSelect({number:idQuotation,visible:false});
+    }
 
-    
+    const changeSelect=(id,{target})=>{
+        const newQuotation={
+            id,
+            coin:target.value,
+            quotation:0
+        }
+        otherQuotation(newQuotation);
+        closeSelect(id);
+    }
     return (
         <section className="quotation">
             <h1 className="title red">Cotizar a:</h1>
             <div className="quotation-container">
                 {
                     quotations.map(quotationValue=>(
-                    <div className="quotation-element" key={quotationValue.coin}>
+                    <div className="quotation-element" key={quotationValue.id}>
                     <p>
                         {quotationValue.coin}&nbsp;
                         <small>
                             {quotationValue.quotation.toFixed(5)}
-                        </small>
-                        
+                        </small>  
                     </p> 
                     <small className="quotation-text">{getName(quotationValue.coin)}</small>
+                    <button 
+                        className="quotation-edit-button"
+                        onClick={()=>{showSelect(quotationValue.id)}}>
+                                <i className="fa fa-edit"></i></button>
+                    
+                    {select.visible===true && select.number===quotationValue.id?
+                        <div>
+                            <button className="close"
+                            onClick={()=>{closeSelect(quotationValue.id)}}>&times;</button>
+                            <select 
+                                onChange={e=>{changeSelect(quotationValue.id,e)}}
+                                className="quotation-edit-select">
+                                {currencies.length>0?
+                                    currencies.map(currency=>(
+                                        <option key={currency.coin}
+                                        value={currency.coin}
+                                        >{currency.coin} - {currency.name}</option>
+                                    ))
+                                :<option>No existen opciones</option>}
+                            </select>
+                            
+                        </div>
+                    :null}
+
                     </div>
+                    
                 ))}
             </div>
             <button className="big-button center"

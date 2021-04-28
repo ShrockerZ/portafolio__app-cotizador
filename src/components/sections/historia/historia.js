@@ -1,9 +1,9 @@
 import React,{useContext,useEffect} from 'react'
-import LocalStorageContext from "../../../context/localstorage/localstorage-context"
+import QuotationContext from '../../../context/quotations/quotation-context';
 import "./historia.css"
 
 export const Historia = () => {
-    const {storageQuotations,allStorageQuotation,deleteQuotation,viewQuotation}=useContext(LocalStorageContext);
+    const {storageQuotations,getStoragedQuotations,deleteQuotation,viewQuotation}=useContext(QuotationContext);
     const textHistory=quotations=>{
         let text=""
         quotations.forEach(quotation=>{
@@ -12,7 +12,7 @@ export const Historia = () => {
         return text;
     }
     useEffect(() => {
-        allStorageQuotation();
+        getStoragedQuotations();
     }, [])
     return (
         <section className="historia">

@@ -1,12 +1,17 @@
 // use of local storage to keeep quotation
 import axios from 'axios';
-import { clone } from "lodash";
-import React,{useReducer,useContext} from 'react';
-import {MAKE_QUOTATION} from '../../types';
-import LocalStorageContext from '../localstorage/localstorage-context';
+import { cloneDeep } from "lodash";
+import {v4 as uuidV4} from "uuid"
+import React,{useReducer,useEffect} from 'react';
+import {MAKE_QUOTATION,
+        GET_QUOTATIONS, 
+        STORE_QUOTATION,
+        DELETE_QUOTATION,
+        VIEW_QUOTATION,
+        OTHER_QUOTATION,
+        CLEAR_QUOTATION} from '../../types';
 import QuotationContext from './quotation-context';
 import QuotationReducer from './quotation-reducer';
-
 
 
 const QuotationState = props => {
@@ -24,28 +29,16 @@ const QuotationState = props => {
                 coin:'BTC',
                 quotation:0},
         ],
+        change:false,
+        storageQuotations:[],
+        selectedQuotation:null
     };
     // obetener todas las cotizaciones del LocalStorage
     const [state, dispatch] = useReducer(QuotationReducer, initialState)
-    const {selectedQuotation,clearQuotation}= useContext(LocalStorageContext);
     // reqlizar cotizacion al cambiar numbero 
-    const makeQuotation=async (form,quotations)=>{
-        const other=clone(quotations);
-        try {
-            if(selectedQuotation){
-                const quote={
-                    coin:selectedQuotation.coin,
-                    quantity:selectedQuotation.quantity,
-                    quotations:selectedQuotation.quotations
-                }
-                dispatch({  
-                    type:MAKE_QUOTATION,
-                    payload:quote
-                })
-                clearQuotation();
-                return
-            }
-            const {coin,quantity}= form;
+    const makeQuotation=async ({coin,quantity},quotations)=>{
+        const other=cloneDeep(quotations);
+        try {            
             const result=await axios.get(`${process.env.REACT_APP_URL}/latest.json?app_id=${process.env.REACT_APP_API_KEY}`);
             const rates= result.data.rates;
             const base=quantity/result.data.rates[coin];
@@ -64,14 +57,92 @@ const QuotationState = props => {
             console.log(error)
         }
     }
+    const setQuotation=selectedQuotation=>{
+        if(selectedQuotation){
+            const quote={
+                coin:selectedQuotation.coin,
+                quantity:selectedQuotation.quantity,
+                quotations:selectedQuotation.quotations
+            }
+            dispatch({  
+                type:MAKE_QUOTATION,
+                payload:quote
+            })
+            clearQuotation();}
+    }
+    const getStoragedQuotations= ()=>{
+        let quotations=[];
+        if(localStorage.getItem('quotations')){
+          quotations=JSON.parse(localStorage.getItem('quotations'));}
+        dispatch({
+            type:GET_QUOTATIONS,
+            payload:quotations
+        });
+    }
+    // almacenar valores en local storage
+    const storeQuotation=(coin,quantity,quotations)=>{
+        const quotate={
+            quantity,
+            coin,
+            quotations,
+            id:uuidV4()
+        }        
+        dispatch({
+            type:STORE_QUOTATION,
+            payload:quotate
+        });   
+    }
+    // borrar una cotizacion 
+    const deleteQuotation=id=>{
+        dispatch({
+            type:DELETE_QUOTATION,
+            payload:id
+        });
+    }
+    // ver una cotizcion 
+    const viewQuotation=id=>{
+        dispatch({
+            type:VIEW_QUOTATION,
+            payload:id
+        });
+    }
+    const clearQuotation=()=>{
+        dispatch({
+            type:CLEAR_QUOTATION
+        });
+    }
+    const otherQuotation=quotation=>{
+        dispatch({
+            type:OTHER_QUOTATION,
+            payload:quotation
+        })
+
+    }
+    useEffect(() => {
+        if(state.storageQuotations && state.storageQuotations.length>0){
+            localStorage.setItem('quotations',JSON.stringify(state.storageQuotations));
+        }else{
+            localStorage.setItem('quotations',JSON.stringify(''));
+        }
+    }, [state.storageQuotations])
     return ( 
         <QuotationContext.Provider
         value={{
+            storageQuotations:state.storageQuotations,
+            selectedQuotation:state.selectedQuotation,
             coin:state.coin,
             quantity:state.quantity,
             quotations:state.quotations,
             selectedQuotation:state.selectedQuotation,
-            makeQuotation
+            change:state.change,
+            getStoragedQuotations,
+            storeQuotation,
+            deleteQuotation,
+            viewQuotation,
+            clearQuotation,
+            setQuotation,
+            makeQuotation,
+            otherQuotation
         }}>
          {props.children}   
         </QuotationContext.Provider>

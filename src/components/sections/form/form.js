@@ -1,37 +1,38 @@
 import React,{useContext,useState,useEffect} from 'react'
 import CurrencyContext from '../../../context/currency/currency-context';
-import LocalStorageContext from '../../../context/localstorage/localstorage-context';
 import QuotationContext from '../../../context/quotations/quotation-context'
 import "./form.css"
 
 export const Form = () => {
-    const {makeQuotation,quotations}=useContext(QuotationContext);
+    const {makeQuotation,quotations,setQuotation,selectedQuotation}=useContext(QuotationContext);
     const {currencies}=useContext(CurrencyContext);
-    const {selectedQuotation,storageQuotations}= useContext(LocalStorageContext); 
     // state + valores por defecto 
     const [formQuotation, setFormQuotation] = useState({
-            quantity:"100",coin:"GTQ"})
+            quantity:"100",
+            coin:"GTQ"})
     // functions
     const onChangeForm=e=>{
         setFormQuotation({...formQuotation,[e.target.name]:e.target.value});
     }
-    const onSubmitForm=e=>{
-        e.preventDefault();
-        makeQuotation(formQuotation,quotations);
-    }
+
     const {quantity,coin}=formQuotation;
+    // effects
     useEffect(() => {
         if(selectedQuotation){
             setFormQuotation({
                 quantity:selectedQuotation.quantity,
                 coin:selectedQuotation.coin});
-            makeQuotation(formQuotation,selectedQuotation.quotations);
+            setQuotation(selectedQuotation);
         }
-    },[selectedQuotation])
+    },[selectedQuotation]);
 
+    useEffect(()=>{
+        if(coin.trim().length>0){
+            makeQuotation(formQuotation,quotations);
+        }
+    },[quantity,coin]);
     return (
-        <form className="form" 
-            onSubmit={onSubmitForm}>
+        <form className="form" >
             <div className="form-content">
                 <label 
                     htmlFor="quantity">cantidad:</label>
@@ -54,7 +55,6 @@ export const Form = () => {
                         }
                     </select>
                 </div>
-                <input type="submit"  className="big-button" value="cotizar"/>
             </div>
         </form>
     )

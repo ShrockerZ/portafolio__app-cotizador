@@ -27,7 +27,7 @@
     width: 100%;
     display:block;
 }
-.quotation-edit{
+.quotation-edit-button{
     position: absolute;
     top: 20%;
     right: 0px;
@@ -37,4 +37,7 @@
     font-size: 2rem;
     border: none;
     cursor: pointer;
+}
+.quotation-edit-select{
+    width: 100%;
 }
