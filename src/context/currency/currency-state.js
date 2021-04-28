@@ -13,7 +13,6 @@ const CurrencyState = props => {
     const [state, dispatch] = useReducer(CurrencyReducer, initialState)
     const getAllCurrencies=async ()=>{
         try {
-            console.log("peticion a la api realzada");
             const result=await axios.get(`${process.env.REACT_APP_URL}/currencies.json`);
             const arreglo= []
             Object.keys(result.data).forEach(llave=>{

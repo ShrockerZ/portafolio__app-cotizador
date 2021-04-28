@@ -1,10 +1,9 @@
-import React,{useContext} from 'react'
-import QuotationContext from '../../../context/quotations/quotation-context';
+import React,{useContext,useEffect} from 'react'
+import LocalStorageContext from "../../../context/localstorage/localstorage-context"
 import "./historia.css"
 
 export const Historia = () => {
-    const {storageQuotations}= useContext(QuotationContext);
-    
+    const {storageQuotations,allStorageQuotation,deleteQuotation,viewQuotation}=useContext(LocalStorageContext);
     const textHistory=quotations=>{
         let text=""
         quotations.forEach(quotation=>{
@@ -12,22 +11,30 @@ export const Historia = () => {
         })
         return text;
     }
-
-
+    useEffect(() => {
+        allStorageQuotation();
+    }, [])
     return (
         <section className="historia">
             <div className="historia-container">
                 <div className="historia-title">
-                    <p >Historico</p>
+                    <p>Historico</p>
                 </div>
                 <div className="historia-data">
-                    {storageQuotations.map(quotations=>(
-                        <div className="historia-element" >
-                        <button className="close">&times;</button>
-                        <p>{textHistory(quotations)}</p>
-                        <button className="button">Ver</button>
+                    {storageQuotations || storageQuotations.length>0?
+                        storageQuotations.map(quotes=>(
+                        <div className="historia-element" 
+                            key={quotes.id} >
+                        <button className="close"
+                            onClick={()=>{deleteQuotation(quotes.id)}}>&times;</button>
+                        <p>
+                            {quotes.coin+'|'+quotes.quantity+
+                            '-->'+textHistory(quotes.quotations)}</p>
+                        <button className="button"
+                            onClick={()=>{viewQuotation(quotes.id)}}>Ver</button>
                         </div>
-                    ))}
+                    )):
+                    <p>No existen elementos</p>}
                 </div>
             </div>
         </section>

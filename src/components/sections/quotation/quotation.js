@@ -1,13 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext,useEffect } from 'react'
 import CurrencyContext from '../../../context/currency/currency-context';
+import LocalStorageContext from '../../../context/localstorage/localstorage-context';
 import QuotationContext from '../../../context/quotations/quotation-context';
 import "./quotation.css"
 
 export const Quotation = () => {
-    const {quotations,storeQuotation}= useContext(QuotationContext);
+    const {quotations,coin,quantity}= useContext(QuotationContext);
+    const {storeQuotation,selectedQuotation}= useContext(LocalStorageContext);
     const {currencies}= useContext(CurrencyContext);
     
-    const getValue= text=>{
+    // obhtener el valor de texto 
+    const getName= text=>{
         let result;
         currencies.forEach(currency=>{
             if(currency.coin===text){
@@ -15,7 +18,12 @@ export const Quotation = () => {
             }
         });
         return result;
-    }
+    };
+    useEffect(() => {
+    }, [selectedQuotation])
+
+
+    
     return (
         <section className="quotation">
             <h1 className="title red">Cotizar a:</h1>
@@ -30,12 +38,12 @@ export const Quotation = () => {
                         </small>
                         
                     </p> 
-                    <small className="quotation-text">{getValue(quotationValue.coin)}</small>
+                    <small className="quotation-text">{getName(quotationValue.coin)}</small>
                     </div>
                 ))}
             </div>
             <button className="big-button center"
-            onClick={()=>{storeQuotation(quotations)}}>guardar</button>
+            onClick={()=>{storeQuotation(coin,quantity,quotations)}}>guardar</button>
         </section>
     )
 }

@@ -1,14 +1,13 @@
-import {    STORE_QUOTATION,
-            MAKE_QUOTATION ,
-            // DELETE_QUOTATION,
-            // VIEW_QUOTATION
-        } from "../../types";
+import {  MAKE_QUOTATION } from "../../types";
 
 export default (state,action)=>{
     switch (action.type) {
-        case STORE_QUOTATION: return {...state,
-        storageQuotations:[...state.storageQuotations,action.payload]};
-        case MAKE_QUOTATION: return {...state,...action.payload}
+        case MAKE_QUOTATION:
+            return {...state,
+            coin:action.payload.coin,
+            quantity:action.payload.quantity,
+            quotations:action.payload.quotations,
+            }
         default:  return state;
     }
 }
