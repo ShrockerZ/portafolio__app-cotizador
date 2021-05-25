@@ -4,7 +4,7 @@ import QuotationContext from '../../../context/quotations/quotation-context';
 import "./quotation.css"
 
 export const Quotation = () => {
-    const {quotations,coin,quantity,storeQuotation,selectedQuotation,otherQuotation
+    const {quotations,coin,quantity,storeQuotation,otherQuotation
             ,makeQuotation,change}= useContext(QuotationContext);
     const {currencies}= useContext(CurrencyContext);
     const [select,setSelect]=useState({
@@ -21,13 +21,7 @@ export const Quotation = () => {
         });
         return result;
     };
-
-    useEffect(() => {
-        if(change){
-            makeQuotation({coin,quantity},quotations);
-        }
-    }, [quotations])
-
+    // funciones
     const showSelect=(idQuotation)=>{
         setSelect({number:idQuotation,visible:true});
     }
@@ -44,6 +38,13 @@ export const Quotation = () => {
         otherQuotation(newQuotation);
         closeSelect(id);
     }
+    // effect
+    useEffect(() => {
+        if(change){
+            makeQuotation({coin,quantity},quotations);
+        }
+    // eslint-disable-next-line
+    }, [quotations])
     return (
         <section className="quotation">
             <h1 className="title red">Cotizar a:</h1>
@@ -62,9 +63,9 @@ export const Quotation = () => {
                         className="quotation-edit-button"
                         onClick={()=>{showSelect(quotationValue.id)}}>
                                 <i className="fa fa-edit"></i></button>
-                    
+                    {/* select coin */}
                     {select.visible===true && select.number===quotationValue.id?
-                        <div>
+                        <div className="quoataion-edit">
                             <button className="close"
                             onClick={()=>{closeSelect(quotationValue.id)}}>&times;</button>
                             <select 
@@ -78,7 +79,6 @@ export const Quotation = () => {
                                     ))
                                 :<option>No existen opciones</option>}
                             </select>
-                            
                         </div>
                     :null}
 

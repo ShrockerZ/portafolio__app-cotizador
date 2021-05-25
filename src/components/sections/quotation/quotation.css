@@ -1,22 +1,35 @@
 .quotation{
     background-color: var(--lightGray);
     color: var(--brickRed);
-    width: 80%;
-    margin: 10px auto 0px auto;
+    width: 90%;
+    margin: 10px auto auto auto;
     padding-bottom: 10px;
 }
 .quotation-container{
     display: grid;
-    grid-template-columns: repeat(3,1fr);
-}
+    grid-template-columns: 1fr;
+}   
 .quotation-element{
     position: relative;
-    padding: 0rem 2rem;
+    padding: 0rem 2rem 1rem 0rem;
+    border-bottom: 1px solid var(--brickRed);
 }
+
+@media screen and (min-width:768px) {
+    .quotation-container{
+        grid-template-columns: repeat(3,1fr);
+    }
+    .quotation-element{
+        border-bottom: none
+    }
+}
+
+
 .quotation-element p{
     text-align: center;
     font-size: 2rem;
     margin-bottom: 10px;
+    
 }
 .quotation-select{
     width: 100%;    
@@ -27,9 +40,14 @@
     width: 100%;
     display:block;
 }
+.quotation-edit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .quotation-edit-button{
     position: absolute;
-    top: 20%;
+    top: 0px;
     right: 0px;
     z-index: 11;
     background-color: transparent;
@@ -39,5 +57,7 @@
     cursor: pointer;
 }
 .quotation-edit-select{
-    width: 100%;
+    width: 90%;
+    margin-bottom: 0px;
+    margin-left: 0px;
 }

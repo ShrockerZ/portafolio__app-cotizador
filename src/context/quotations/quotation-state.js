@@ -35,13 +35,14 @@ const QuotationState = props => {
     };
     // obetener todas las cotizaciones del LocalStorage
     const [state, dispatch] = useReducer(QuotationReducer, initialState)
-    // reqlizar cotizacion al cambiar numbero 
+    // realizar cotizacion al cambiar numero 
     const makeQuotation=async ({coin,quantity},quotations)=>{
         const other=cloneDeep(quotations);
         try {            
             const result=await axios.get(`${process.env.REACT_APP_URL}/latest.json?app_id=${process.env.REACT_APP_API_KEY}`);
             const rates= result.data.rates;
             const base=quantity/result.data.rates[coin];
+            // evito mutar el original mutando la copia de mi arrelgo 
             other.map(quote=>{
                 quote.quotation=rates[quote.coin]*base;
                 return quote;
@@ -99,18 +100,20 @@ const QuotationState = props => {
             payload:id
         });
     }
-    // ver una cotizcion 
+    // ver una cotizacion 
     const viewQuotation=id=>{
         dispatch({
             type:VIEW_QUOTATION,
             payload:id
         });
     }
+    // limpiar cotizaciones
     const clearQuotation=()=>{
         dispatch({
             type:CLEAR_QUOTATION
         });
     }
+    //cambiar la cotizacion 
     const otherQuotation=quotation=>{
         dispatch({
             type:OTHER_QUOTATION,
@@ -133,7 +136,6 @@ const QuotationState = props => {
             coin:state.coin,
             quantity:state.quantity,
             quotations:state.quotations,
-            selectedQuotation:state.selectedQuotation,
             change:state.change,
             getStoragedQuotations,
             storeQuotation,

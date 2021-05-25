@@ -1,21 +1,33 @@
 .historia{
     background-color: var(--lightBlue);
-    width: 80%;
+    width: 90%;
     margin: 0px auto;
 }
 .historia-container{
-    display: grid ;
-    grid-template-columns: 1fr 2fr;
+    display: grid;
+    grid-template-columns: 1fr;
 }
+.historia-data{
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 1rem;
+}
+@media screen and (min-width:768px) {
+    .historia-container{
+        display: grid ;
+        grid-template-columns: 1fr 2fr;
+    }
+    .historia-data{
+        grid-template-columns: repeat(2,1fr);
+    } 
+}
+
 .historia-title{
     text-align: center;
 }
 .historia-title p{
     font-size: 2rem;
-}
-.historia-data{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
+    padding: 0rem
 }
 .historia-element{
     width: 280px;  
@@ -31,4 +43,6 @@
     height: auto;
     color: var(--brickRed); 
 }
-
+.historia-text{
+    text-align: center;
+}

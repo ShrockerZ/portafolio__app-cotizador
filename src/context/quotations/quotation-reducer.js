@@ -7,7 +7,7 @@ import {MAKE_QUOTATION,
         CLEAR_QUOTATION,
         OTHER_QUOTATION} from '../../types';
 
-export default (state,action)=>{
+const QuotationReducer=(state,action)=>{
     switch (action.type) {
         case MAKE_QUOTATION:
         case SET_QUOTATION:
@@ -44,3 +44,4 @@ export default (state,action)=>{
         default:  return state;
     }
 }
+export default QuotationReducer;

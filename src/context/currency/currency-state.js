@@ -14,17 +14,17 @@ const CurrencyState = props => {
     const getAllCurrencies=async ()=>{
         try {
             const result=await axios.get(`${process.env.REACT_APP_URL}/currencies.json`);
-            const arreglo= []
-            Object.keys(result.data).forEach(llave=>{
+            const array= []
+            Object.keys(result.data).forEach(key=>{
                 const currency= {
-                    coin:llave,
-                    name:result.data[llave]
+                    coin:key,
+                    name:result.data[key]
                 }
-                arreglo.push(currency);
+                array.push(currency);
             });
             dispatch({
-                type:   GET_CURRENCY,
-                payload:arreglo
+                type: GET_CURRENCY,
+                payload:array
             });  
         } catch (error) {
             console.log(error)

@@ -24,13 +24,14 @@ export const Form = () => {
                 coin:selectedQuotation.coin});
             setQuotation(selectedQuotation);
         }
-    },[selectedQuotation]);
+    },[selectedQuotation,setQuotation]);
 
     useEffect(()=>{
         if(coin.trim().length>0){
             makeQuotation(formQuotation,quotations);
         }
-    },[quantity,coin]);
+    // eslint-disable-next-line
+    },[quantity,coin,formQuotation]);
     return (
         <form className="form" >
             <div className="form-content">

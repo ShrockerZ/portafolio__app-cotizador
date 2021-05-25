@@ -1,18 +1,30 @@
 .form{
-    width: auto;
-    margin: 0 auto;
-    font-size: 1.2rem;
-    text-align: left;
+    width: 100%;
+    font-size: 1rem;
 }
 .form-content{
-    width: 33%;
-    margin: 0 auto;
+    width: 100%;
 }
 input[type="number"],select{
     margin-bottom:1rem;
-    width: 300px;
+    width: 100%;
     font-size: 1.2rem;
     border: none;
     cursor: pointer;
-    margin-left: 10px;
   }  
+@media screen and (min-width:768px) {
+    .form{
+        width: auto;
+        margin: 0 auto;
+        font-size: 1.2rem;
+        text-align: left;
+    }
+    .form-content{
+        width: 33%;
+        margin: 0 auto;
+    }
+    input[type="number"],select{
+        width: 350px;
+    }
+}
+

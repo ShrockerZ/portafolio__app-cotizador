@@ -13,6 +13,7 @@ export const Historia = () => {
     }
     useEffect(() => {
         getStoragedQuotations();
+        // eslint-disable-next-line
     }, [])
     return (
         <section className="historia">
@@ -21,20 +22,20 @@ export const Historia = () => {
                     <p>Historico</p>
                 </div>
                 <div className="historia-data">
-                    {storageQuotations || storageQuotations.length>0?
+                    {storageQuotations && storageQuotations.length>0?
                         storageQuotations.map(quotes=>(
                         <div className="historia-element" 
-                            key={quotes.id} >
+                             key={quotes.id} >
                         <button className="close"
-                            onClick={()=>{deleteQuotation(quotes.id)}}>&times;</button>
-                        <p>
-                            {quotes.coin+'|'+quotes.quantity+
-                            '-->'+textHistory(quotes.quotations)}</p>
+                            onClick={()=>{deleteQuotation(quotes.id)}}>
+                            &times;</button>
+                        <p>{quotes.coin+'*'+quotes.quantity+'>'+
+                            textHistory(quotes.quotations)}</p>
                         <button className="button"
                             onClick={()=>{viewQuotation(quotes.id)}}>Ver</button>
                         </div>
                     )):
-                    <p>No existen elementos</p>}
+                    <p className="historia-text">No existen elementos!!</p>}
                 </div>
             </div>
         </section>
