@@ -11,30 +11,26 @@ export const Quotation = () => {
         number:0,
         visible:false
     })
-    // obhtener el valor de texto 
+    // local functions
     const getName= text=>{
         let result;
         currencies.forEach(currency=>{
             if(currency.coin===text){
-                result=currency.name
-            }
+                result=currency.name}
         });
         return result;
     };
-    // funciones
     const showSelect=(idQuotation)=>{
         setSelect({number:idQuotation,visible:true});
     }
     const closeSelect=(idQuotation)=>{
         setSelect({number:idQuotation,visible:false});
     }
-
     const changeSelect=(id,{target})=>{
         const newQuotation={
             id,
             coin:target.value,
-            quotation:0
-        }
+            quotation:0}
         otherQuotation(newQuotation);
         closeSelect(id);
     }

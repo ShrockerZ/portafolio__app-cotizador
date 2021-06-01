@@ -19,6 +19,5 @@ function App() {
                 <Footer />
             </QuotationState>
           </CurrencyState>
-          
     </Fragment>)}
 export default App;

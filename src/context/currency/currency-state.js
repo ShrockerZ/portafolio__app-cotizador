@@ -6,11 +6,12 @@ import axios from "axios";
 
 
 const CurrencyState = props => {
-    // get currencies
     const initialState={
         currencies:[]
     }
+    //  dispatch
     const [state, dispatch] = useReducer(CurrencyReducer, initialState)
+    //  functions
     const getAllCurrencies=async ()=>{
         try {
             const result=await axios.get(`${process.env.REACT_APP_URL}/currencies.json`);
@@ -18,8 +19,7 @@ const CurrencyState = props => {
             Object.keys(result.data).forEach(key=>{
                 const currency= {
                     coin:key,
-                    name:result.data[key]
-                }
+                    name:result.data[key]}
                 array.push(currency);
             });
             dispatch({
@@ -38,8 +38,7 @@ const CurrencyState = props => {
     return ( 
         <CurrencyContext.Provider
         value={{
-            currencies:state.currencies,
-        }}>
+            currencies:state.currencies}}>
             {props.children}
         </CurrencyContext.Provider>
      );

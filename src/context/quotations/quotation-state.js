@@ -15,6 +15,7 @@ import QuotationReducer from './quotation-reducer';
 
 
 const QuotationState = props => {
+    // default values
     const initialState={
         coin:null,
         quantity:null,
@@ -33,22 +34,22 @@ const QuotationState = props => {
         storageQuotations:[],
         selectedQuotation:null
     };
-    // obetener todas las cotizaciones del LocalStorage
+    // reducer
     const [state, dispatch] = useReducer(QuotationReducer, initialState)
-    // realizar cotizacion al cambiar numero 
+    
+    // functions
     const makeQuotation=async ({coin,quantity},quotations)=>{
-        const other=cloneDeep(quotations);
+        const copy=cloneDeep(quotations);
         try {            
             const result=await axios.get(`${process.env.REACT_APP_URL}/latest.json?app_id=${process.env.REACT_APP_API_KEY}`);
             const rates= result.data.rates;
             const base=quantity/result.data.rates[coin];
-            // evito mutar el original mutando la copia de mi arrelgo 
-            other.map(quote=>{
+            copy.map(quote=>{
                 quote.quotation=rates[quote.coin]*base;
-                return quote;
+                return quote; 
             });
             const quote={
-                coin,quantity,quotations:other
+                coin,quantity,quotations:copy
             }
             dispatch({  
                 type:MAKE_QUOTATION,
@@ -80,7 +81,6 @@ const QuotationState = props => {
             payload:quotations
         });
     }
-    // almacenar valores en local storage
     const storeQuotation=(coin,quantity,quotations)=>{
         const quotate={
             quantity,
@@ -93,27 +93,27 @@ const QuotationState = props => {
             payload:quotate
         });   
     }
-    // borrar una cotizacion 
+
     const deleteQuotation=id=>{
         dispatch({
             type:DELETE_QUOTATION,
             payload:id
         });
     }
-    // ver una cotizacion 
+
     const viewQuotation=id=>{
         dispatch({
             type:VIEW_QUOTATION,
             payload:id
         });
     }
-    // limpiar cotizaciones
+
     const clearQuotation=()=>{
         dispatch({
             type:CLEAR_QUOTATION
         });
     }
-    //cambiar la cotizacion 
+
     const otherQuotation=quotation=>{
         dispatch({
             type:OTHER_QUOTATION,
@@ -121,12 +121,14 @@ const QuotationState = props => {
         })
 
     }
+    // effect -localstorage
     useEffect(() => {
         if(state.storageQuotations && state.storageQuotations.length>0){
             localStorage.setItem('quotations',JSON.stringify(state.storageQuotations));
         }else{
             localStorage.setItem('quotations',JSON.stringify(''));
         }
+        
     }, [state.storageQuotations])
     return ( 
         <QuotationContext.Provider

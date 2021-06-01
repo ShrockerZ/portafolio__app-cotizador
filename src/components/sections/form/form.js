@@ -6,17 +6,19 @@ import "./form.css"
 export const Form = () => {
     const {makeQuotation,quotations,setQuotation,selectedQuotation}=useContext(QuotationContext);
     const {currencies}=useContext(CurrencyContext);
-    // state + valores por defecto 
+    
+    // state + default values
+    const {quantity,coin}=formQuotation;
     const [formQuotation, setFormQuotation] = useState({
             quantity:"100",
             coin:"GTQ"})
-    // functions
+    // local functions
     const onChangeForm=e=>{
         setFormQuotation({...formQuotation,[e.target.name]:e.target.value});
     }
 
-    const {quantity,coin}=formQuotation;
     // effects
+
     useEffect(() => {
         if(selectedQuotation){
             setFormQuotation({

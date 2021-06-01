@@ -4,13 +4,13 @@ import "./historia.css"
 
 export const Historia = () => {
     const {storageQuotations,getStoragedQuotations,deleteQuotation,viewQuotation}=useContext(QuotationContext);
+    // local functions
     const textHistory=quotations=>{
         let text=""
-        quotations.forEach(quotation=>{
-            text+= `${quotation.coin}|`
-        })
+        quotations.forEach(quotation=>{ text+= `${quotation.coin}|` })
         return text;
     }
+    // effects
     useEffect(() => {
         getStoragedQuotations();
         // eslint-disable-next-line
