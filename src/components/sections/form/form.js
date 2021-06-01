@@ -8,10 +8,10 @@ export const Form = () => {
     const {currencies}=useContext(CurrencyContext);
     
     // state + default values
-    const {quantity,coin}=formQuotation;
     const [formQuotation, setFormQuotation] = useState({
             quantity:"100",
             coin:"GTQ"})
+    const {quantity,coin}=formQuotation;
     // local functions
     const onChangeForm=e=>{
         setFormQuotation({...formQuotation,[e.target.name]:e.target.value});
