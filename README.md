@@ -1,10 +1,10 @@
-#Portafolio cotizador 
+# Portafolio cotizador 
 
 Hi I'm Manuel Medina
 This is an app developed in React with the goal to show 
 the things i can make on Javascript,Nodejs, Php
 
-###Spanish
+### Spanish
 the interface interaction are written on spanish  this is 
 because i'm a native spanish speaker , this portfolio will be present to rrhh in spanish and spanish developers in latinoamerica 
 Note: i may slip some spanish reference in the code just ignore it 
@@ -16,11 +16,11 @@ please visit https:// www.manuelwebman.com you can check out the projects i'm wo
 thank you for your time reading this , if you have any comments or advice please let me know at the comment section or send an email to  manuel.medinasp@gmail.com
 
 
-#API Usage
+# API Usage
 REACT_APP_URL=https://openexchangerates.org/api 
 REACT_APP_API_KEY= "register in the site to get an api key  "
 
-#Commands
+# Commands
 
 Include normal commands you use to run a javascript/nodejs famework project 
 
